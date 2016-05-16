@@ -68,6 +68,40 @@ class TeamsController < ApplicationController
     render json: students
   end
 
+  def differences
+    require 'net/http'
+
+    url = URI.parse("https://bd-alarms.herokuapp.com/teams.json")
+    http = Net::HTTP.new(url.host, url.port)
+    request = Net::HTTP::Get.new(url.request_uri)
+    http.use_ssl = true  
+    res = http.request(request)
+
+    # url = URI.parse('https://bd-alarms.herokuapp.com/projects.json')
+    # req = Net::HTTP::Get.new(url.to_s)
+    # res = Net::HTTP.start(url.host, url.port) {|http|
+    #   http.request(req)
+    # }
+    db_tams = JSON.parse(res.body)
+    api_teams = JSON.parse(Team.all.to_json)
+
+    puts "db: #{db_tams}"
+    puts "api: #{api_teams}"
+    result = []
+    api_names = []
+    db_names = []
+    
+    db_tams.map {|de| db_names << de["name"]}
+    api_teams.map {|ae| api_names << ae["name"]}
+
+    api_names.each_with_index do |name, index|
+      unless db_names.include?(name)
+        result << {id: api_teams[index]["id"]}
+      end
+    end
+    render json: result
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_team

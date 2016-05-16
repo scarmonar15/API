@@ -64,7 +64,7 @@ class TeamsController < ApplicationController
   def get_students
     set_team
     students = []
-    @team.students.map{|s| students << {id: s["id"]} }
+    @team.students.map{|s| students << s["id"]}
     render json: students
   end
 
@@ -96,7 +96,7 @@ class TeamsController < ApplicationController
 
     api_names.each_with_index do |name, index|
       unless db_names.include?(name)
-        result << {id: api_teams[index]["id"]}
+        result << api_teams[index]["id"]
       end
     end
     render json: result

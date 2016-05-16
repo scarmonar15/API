@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get 'projects/:id/get_groups' => 'projects#get_groups', as: :groups_project
   get 'teams/:id/get_students' => 'teams#get_students', as: :students_group
   get 'teams/index/differences' => 'teams#differences', as: :team_differences
+  get 'assignments/index/differences' => 'assignments#differences', as: :assignment_differences
+
 
   resources :students_tasks
 

@@ -83,13 +83,14 @@ class ProjectsController < ApplicationController
     result = []
     api_names = []
     db_names = []
+    response = []
     
     db_projects.map {|de| db_names << de["title"]}
     api_projects.map {|ae| api_names << ae["title"]}
 
     api_names.each_with_index do |name, index|
       unless db_names.include?(name)
-        result << {id: api_projects[index]["id"]}
+        result << api_projects[index]["id"]
       end
     end
     render json: result
@@ -98,7 +99,7 @@ class ProjectsController < ApplicationController
   def get_groups
     set_project
     groups = []
-    @project.teams.map{|g| groups << {id: g["id"]}}
+    @project.teams.map{|g| groups << g["id"] }
     render json: groups
   end
   

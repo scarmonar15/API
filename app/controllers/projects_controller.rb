@@ -97,9 +97,24 @@ class ProjectsController < ApplicationController
   end
 
   def get_groups
+    render json: {message: "Esto ya no se usa"}
+  end
+
+  def get_students
     set_project
-    groups = []
-    @project.teams.map{|g| groups << g["id"] }
+    #@project.teams.map{|g| groups << g["id"] }
+    teams = @project.teams
+    students = []
+    students = teams.map {|t| t.students}
+    groups = {}
+    groups[:id] = @project.id
+    groups[:teams] = []
+    teams.each do |team|
+      groups[:teams] << {
+        id: team.id,
+        students: team.get_students
+      }
+    end
     render json: groups
   end
   

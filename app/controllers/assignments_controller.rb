@@ -99,6 +99,24 @@ class AssignmentsController < ApplicationController
     end
     render json: result
   end
+
+  def get_students
+    set_assignment
+    #@project.teams.map{|g| groups << g["id"] }
+    teams = @assignment.teams
+    students = []
+    students = teams.map {|t| t.students}
+    groups = {}
+    groups[:id] = @assignment.id
+    groups[:teams] = []
+    teams.each do |team|
+      groups[:teams] << {
+        id: team.id,
+        students: team.get_students
+      }
+    end
+    render json: groups
+  end
   
   private
     # Use callbacks to share common setup or constraints between actions.

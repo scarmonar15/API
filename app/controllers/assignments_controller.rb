@@ -61,6 +61,13 @@ class AssignmentsController < ApplicationController
     end
   end
 
+  def get_groups
+    set_assignment
+    groups = []
+    @assignment.teams.map{|g| groups << {id: g["id"]}}
+    render json: groups
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_assignment

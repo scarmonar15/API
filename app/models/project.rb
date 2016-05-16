@@ -1,4 +1,5 @@
 class Project < ActiveRecord::Base
 	has_many :assignments
-	has_and_belongs_to_many :teams
+	has_many :teams, through: :teams_projects
+	has_many :teams_projects
 end

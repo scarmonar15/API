@@ -94,6 +94,13 @@ class ProjectsController < ApplicationController
     end
     render json: result
   end
+
+  def get_groups
+    set_project
+    groups = []
+    @project.teams.map{|g| groups << {id: g["id"]}}
+    render json: groups
+  end
   
   private
     # Use callbacks to share common setup or constraints between actions.

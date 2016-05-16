@@ -89,7 +89,7 @@ class ProjectsController < ApplicationController
 
     api_names.each_with_index do |name, index|
       unless db_names.include?(name)
-        result << api_projects[index]
+        result << {id: api_projects[index]["id"]}
       end
     end
     render json: result

@@ -51,8 +51,8 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # DELETE /projects/1
-  # DELETE /projects/1.json
+  # DELETE /projects/1  
+  # DELETE /projects/1.json 
   def destroy
     @project.destroy
     respond_to do |format|
@@ -61,6 +61,40 @@ class ProjectsController < ApplicationController
     end
   end
 
+ def differences
+    require 'net/http'
+
+    url = URI.parse("https://bd-alarms.herokuapp.com/projects.json")
+    http = Net::HTTP.new(url.host, url.port)
+    request = Net::HTTP::Get.new(url.request_uri)
+    http.use_ssl = true  
+    res = http.request(request)
+
+    # url = URI.parse('https://bd-alarms.herokuapp.com/projects.json')
+    # req = Net::HTTP::Get.new(url.to_s)
+    # res = Net::HTTP.start(url.host, url.port) {|http|
+    #   http.request(req)
+    # }
+    db_projects = JSON.parse(res.body)
+    api_projects = JSON.parse(Project.all.to_json)
+
+    puts "db: #{db_projects}"
+    puts "api: #{api_projects}"
+    result = []
+    api_names = []
+    db_names = []
+    
+    db_projects.map {|de| db_names << de["title"]}
+    api_projects.map {|ae| api_names << ae["title"]}
+
+    api_names.each_with_index do |name, index|
+      unless db_names.include?(name)
+        result << api_projects[index]
+      end
+    end
+    render json: result
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project

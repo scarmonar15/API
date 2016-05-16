@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   get 'welcome/index'
+  get 'projects/index/differences' => 'projects#differences', as: :differences
+  
 
   resources :students_tasks
 

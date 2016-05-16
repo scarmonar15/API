@@ -108,6 +108,8 @@ class ProjectsController < ApplicationController
     students = teams.map {|t| t.students}
     groups = {}
     groups[:id] = @project.id
+    groups[:title] = @project.title
+    groups[:description] = @project.description
     groups[:teams] = []
     teams.each do |team|
       groups[:teams] << {

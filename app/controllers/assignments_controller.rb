@@ -108,6 +108,8 @@ class AssignmentsController < ApplicationController
     students = teams.map {|t| t.students}
     groups = {}
     groups[:id] = @assignment.id
+    groups[:description] = @assignment.description
+    groups[:limit_date] = @assignment.limit_date
     groups[:teams] = []
     teams.each do |team|
       groups[:teams] << {

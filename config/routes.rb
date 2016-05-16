@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :learnings
+
   get 'welcome/index'
   get 'projects/index/differences' => 'projects#differences', as: :project_differences
   get 'assignments/:id/get_groups' => 'assignments#get_groups', as: :groups_assignment

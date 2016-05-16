@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  limit_date: 2016-05-15
+  description: MyString
+  grade: 1.5
+  project_id: 
+
+two:
+  limit_date: 2016-05-15
+  description: MyString
+  grade: 1.5
+  project_id: 

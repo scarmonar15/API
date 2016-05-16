@@ -1,3 +1,4 @@
 class Learning < ActiveRecord::Base
-  belongs_to :student
+	has_many :students, through: :learnings_students
+	has_many :learnings_students
 end

@@ -61,6 +61,46 @@ class LearningsController < ApplicationController
     end
   end
 
+  def differences
+    require 'net/http'
+
+    url = URI.parse("https://bd-alarms.herokuapp.com/learnings.json")
+    http = Net::HTTP.new(url.host, url.port)
+    request = Net::HTTP::Get.new(url.request_uri)
+    http.use_ssl = true  
+    res = http.request(request)
+
+    # url = URI.parse('https://bd-alarms.herokuapp.com/projects.json')
+    # req = Net::HTTP::Get.new(url.to_s)
+    # res = Net::HTTP.start(url.host, url.port) {|http|
+    #   http.request(req)
+    # }
+    db_learnings = JSON.parse(res.body)
+    api_learnings = JSON.parse(Learning.all.to_json)
+
+    result = []
+    api_names = []
+    db_names = []
+    
+    db_learnings.map {|de| db_names << de["name"]}
+    api_learnings.map {|ae| api_names << ae["name"]}
+
+    api_names.each_with_index do |name, index|
+      unless db_names.include?(name)
+        result << api_learnings[index]["id"]
+      end
+    end
+    render json: result
+  end
+
+  def get_students
+    set_learning
+    students = []
+    @learning.students.map{|s| students << {id: s["id"], name: s["name"], last_name: s["last_name"], email: s["email"]}}
+    response = {id: @learning.id, name: @learning.name, students: students}
+    render json: response
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_learning
@@ -69,6 +109,6 @@ class LearningsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def learning_params
-      params.require(:learning).permit(:name, :student_id)
+      params.require(:learning).permit(:name)
     end
 end

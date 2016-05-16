@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516222934) do
+ActiveRecord::Schema.define(version: 20160516230838) do
 
   create_table "assignments", force: true do |t|
     t.date     "limit_date"
@@ -26,12 +26,19 @@ ActiveRecord::Schema.define(version: 20160516222934) do
 
   create_table "learnings", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "learnings_students", force: true do |t|
+    t.integer  "learning_id"
     t.integer  "student_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "learnings", ["student_id"], name: "index_learnings_on_student_id"
+  add_index "learnings_students", ["learning_id"], name: "index_learnings_students_on_learning_id"
+  add_index "learnings_students", ["student_id"], name: "index_learnings_students_on_student_id"
 
   create_table "projects", force: true do |t|
     t.string   "title"

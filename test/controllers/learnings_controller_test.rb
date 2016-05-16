@@ -18,7 +18,7 @@ class LearningsControllerTest < ActionController::TestCase
 
   test "should create learning" do
     assert_difference('Learning.count') do
-      post :create, learning: { name: @learning.name, student_id: @learning.student_id }
+      post :create, learning: { name: @learning.name }
     end
 
     assert_redirected_to learning_path(assigns(:learning))
@@ -35,7 +35,7 @@ class LearningsControllerTest < ActionController::TestCase
   end
 
   test "should update learning" do
-    patch :update, id: @learning, learning: { name: @learning.name, student_id: @learning.student_id }
+    patch :update, id: @learning, learning: { name: @learning.name }
     assert_redirected_to learning_path(assigns(:learning))
   end
 

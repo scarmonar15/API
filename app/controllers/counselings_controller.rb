@@ -99,7 +99,7 @@ class CounselingsController < ApplicationController
     set_counseling
     students = []
     @counseling.students.map{|s| students << {id: s["id"], name: s["name"], last_name: s["last_name"], email: s["email"]}}
-    response = {id: @counseling.id, date: @counseling.date, classroom: @counseling.classroom, students: students}
+    response = {id: @counseling.id, date: @counseling.date, classroom: @counseling.classroom, adviser: @counseling.adviser, students: students}
     render json: response
   end
 

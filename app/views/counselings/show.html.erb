@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @counseling.date %>
+</p>
+
+<p>
+  <strong>Adviser:</strong>
+  <%= @counseling.adviser %>
+</p>
+
+<p>
+  <strong>Classroom:</strong>
+  <%= @counseling.classroom %>
+</p>
+
+<%= link_to 'Edit', edit_counseling_path(@counseling) %> |
+<%= link_to 'Back', counselings_path %>

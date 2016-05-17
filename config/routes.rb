@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :counselings_students
+
+  resources :counselings
+
   resources :learnings_students
 
   resources :learnings
@@ -14,6 +18,8 @@ Rails.application.routes.draw do
   get 'assignments/:id/students' => 'assignments#get_students', as: :students_assignments
   get 'learnings/index/differences' => 'learnings#differences', as: :learning_differences
   get 'learnings/:id/students' => 'learnings#get_students', as: :students_learning
+  get 'counselings/index/differences' => 'counselings#differences', as: :counseling_differences
+  get 'counselings/:id/students' => 'counselings#get_students', as: :students_counseling
 
   resources :students_tasks
 

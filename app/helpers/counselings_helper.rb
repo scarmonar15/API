@@ -1,0 +1,2 @@
+module CounselingsHelper
+end

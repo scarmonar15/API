@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516230838) do
+ActiveRecord::Schema.define(version: 20160517003956) do
 
   create_table "assignments", force: true do |t|
     t.date     "limit_date"
@@ -23,6 +23,24 @@ ActiveRecord::Schema.define(version: 20160516230838) do
   end
 
   add_index "assignments", ["project_id"], name: "index_assignments_on_project_id"
+
+  create_table "counselings", force: true do |t|
+    t.date     "date"
+    t.string   "adviser"
+    t.string   "classroom"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "counselings_students", force: true do |t|
+    t.integer  "counseling_id"
+    t.integer  "student_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "counselings_students", ["counseling_id"], name: "index_counselings_students_on_counseling_id"
+  add_index "counselings_students", ["student_id"], name: "index_counselings_students_on_student_id"
 
   create_table "learnings", force: true do |t|
     t.string   "name"

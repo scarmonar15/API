@@ -69,31 +69,29 @@ class ProjectsController < ApplicationController
     request = Net::HTTP::Get.new(url.request_uri)
     http.use_ssl = true  
     res = http.request(request)
-
-    # url = URI.parse('https://bd-alarms.herokuapp.com/projects.json')
-    # req = Net::HTTP::Get.new(url.to_s)
-    # res = Net::HTTP.start(url.host, url.port) {|http|
-    #   http.request(req)
-    # }
     db_projects = JSON.parse(res.body)
     api_projects = JSON.parse(Project.all.to_json)
-
-    puts "db: #{db_projects}"
-    puts "api: #{api_projects}"
     result = []
     api_names = []
     db_names = []
     response = []
+      
+    db_projects.map {|aa| db_names << aa["title"]}
     
-    db_projects.map {|de| db_names << de["title"]}
-    api_projects.map {|ae| api_names << ae["title"]}
-
-    api_names.each_with_index do |name, index|
-      unless db_names.include?(name)
-        result << api_projects[index]["id"]
-      end
-    end
-    render json: result
+    api_projects.each_with_index do |project, index|
+     unless db_names.include?(project["title"])
+       result << project["id"]
+       response << {"title" => project["title"], "description" => project["description"]}
+     end
+   end
+   response.each_with_index do |post, index|
+     http = Net::HTTP.new(url.host, url.port)
+     http.use_ssl = true
+     request = Net::HTTP::Post.new(url.path, {'Content-Type' =>'application/json'})
+     request.body = post.to_json
+     response = http.request(request)
+   end
+   render json: result
   end
 
   def get_groups

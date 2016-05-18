@@ -70,11 +70,6 @@ class CounselingsController < ApplicationController
     http.use_ssl = true  
     res = http.request(request)
 
-    # url = URI.parse('https://bd-alarms.herokuapp.com/projects.json')
-    # req = Net::HTTP::Get.new(url.to_s)
-    # res = Net::HTTP.start(url.host, url.port) {|http|
-    #   http.request(req)
-    # }
     db_counselings = JSON.parse(res.body)
     api_counselings = JSON.parse(Counseling.all.to_json)
 
@@ -83,16 +78,25 @@ class CounselingsController < ApplicationController
     db_names = []
     db_rooms = []
     db_dates = []
+    response = []
     
     db_counselings.map {|de| db_rooms << de["classroom"]}
     db_counselings.map {|de| db_dates << de["date"]}
 
     api_counselings.each_with_index do |coun, index|
       unless db_rooms.include?(coun["classroom"]) and db_dates.include?(coun["date"])
-        result << api_counselings[index]["id"]
+        result << coun["id"]
+        response << {"date" => coun["date"], "adviser" => coun["adviser"], "classroom" => coun["classroom"]}
       end
     end
-    render json: result
+    response.each_with_index do |post, index|
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
+      request = Net::HTTP::Post.new(url.path, {'Content-Type' =>'application/json'})
+      request.body = post.to_json
+      response = http.request(request)
+    end
+      render json: result
   end
 
   def get_students

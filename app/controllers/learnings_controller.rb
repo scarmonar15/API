@@ -70,27 +70,30 @@ class LearningsController < ApplicationController
     http.use_ssl = true  
     res = http.request(request)
 
-    # url = URI.parse('https://bd-alarms.herokuapp.com/projects.json')
-    # req = Net::HTTP::Get.new(url.to_s)
-    # res = Net::HTTP.start(url.host, url.port) {|http|
-    #   http.request(req)
-    # }
     db_learnings = JSON.parse(res.body)
     api_learnings = JSON.parse(Learning.all.to_json)
 
     result = []
     api_names = []
     db_names = []
+    response = []
     
     db_learnings.map {|de| db_names << de["name"]}
-    api_learnings.map {|ae| api_names << ae["name"]}
-
-    api_names.each_with_index do |name, index|
-      unless db_names.include?(name)
-        result << api_learnings[index]["id"]
-      end
-    end
-    render json: result
+            
+    api_learnings.each_with_index do |learning, index|
+     unless db_names.include?(learning["name"])
+       result << learning["id"]
+       response << {"name" => learning["name"]}
+     end
+   end
+   response.each_with_index do |post, index|
+     http = Net::HTTP.new(url.host, url.port)
+     http.use_ssl = true
+     request = Net::HTTP::Post.new(url.path, {'Content-Type' =>'application/json'})
+     request.body = post.to_json
+     response = http.request(request)
+   end
+   render json: result
   end
 
   def get_students

@@ -76,28 +76,30 @@ class AssignmentsController < ApplicationController
     request = Net::HTTP::Get.new(url.request_uri)
     http.use_ssl = true  
     res = http.request(request)
-
-    # url = URI.parse('http://apimasalarms.herokuapp.com/assignments.json')
-    # req = Net::HTTP::Get.new(url.to_s)
-    # res = Net::HTTP.start(url.host, url.port) {|http|
-    #   http.request(req)
-    # }
     db_assignments = JSON.parse(res.body)
     api_assignments = JSON.parse(Assignment.all.to_json)
 
     result = []
     api_names = []
     db_names = []
+    response = []
     
     db_assignments.map {|aa| db_names << aa["description"]}
-    api_assignments.map {|da| api_names << da["description"]}
-
-    api_names.each_with_index do |name, index|
-      unless db_names.include?(name)
-        result << api_assignments[index]["id"]
-      end
-    end
-    render json: result
+    
+    api_assignments.each_with_index do |assignment, index|
+     unless db_names.include?(assignment["description"])
+       result << assignment["id"]
+       response << {"limit_date" => assignment["limit_date"], "description" => assignment["description"], "grade" => assignment["grade"]}
+     end
+   end
+   response.each_with_index do |post, index|
+     http = Net::HTTP.new(url.host, url.port)
+     http.use_ssl = true
+     request = Net::HTTP::Post.new(url.path, {'Content-Type' =>'application/json'})
+     request.body = post.to_json
+     response = http.request(request)
+   end
+   render json: result
   end
 
   def get_students

@@ -83,22 +83,25 @@ class TeamsController < ApplicationController
     # res = Net::HTTP.start(url.host, url.port) {|http|
     #   http.request(req)
     # }
-    db_tams = JSON.parse(res.body)
+    db_teams = JSON.parse(res.body)
     api_teams = JSON.parse(Team.all.to_json)
-
-    puts "db: #{db_tams}"
-    puts "api: #{api_teams}"
     result = []
     api_names = []
     db_names = []
-    
-    db_tams.map {|de| db_names << de["name"]}
-    api_teams.map {|ae| api_names << ae["name"]}
-
-    api_names.each_with_index do |name, index|
-      unless db_names.include?(name)
-        result << api_teams[index]["id"]
+    response = []
+    db_teams.map {|de| db_names << de["name"]}
+    api_teams.each_with_index do |team, index|
+      unless db_names.include?(team["name"])
+        result << team["id"]
+        response << {"name" => team["name"]}
       end
+    end
+    response.each_with_index do |post, index|
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
+      request = Net::HTTP::Post.new(url.path, {'Content-Type' =>'application/json'})
+      request.body = post.to_json
+      response = http.request(request)
     end
     render json: result
   end

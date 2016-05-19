@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Id</th>
       <th>Student</th>
       <th>Description</th>
       <th colspan="3"></th>
@@ -12,6 +13,7 @@
   <tbody>
     <% @reports.each do |report| %>
       <tr>
+        <td><%= report.id %></td>
         <td><%= report.student.name unless report.student.blank? %></td>
         <td><%= report.description %></td>
         <td><%= link_to 'Show', report %></td>

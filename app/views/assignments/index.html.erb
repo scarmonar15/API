@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Id</th>
       <th>Limit date</th>
       <th>Description</th>
       <th>Grade</th>
@@ -14,6 +15,7 @@
   <tbody>
     <% @assignments.each do |assignment| %>
       <tr>
+        <td><%= assignment.id %></td>
         <td><%= assignment.limit_date %></td>
         <td><%= assignment.description %></td>
         <td><%= assignment.grade %></td>

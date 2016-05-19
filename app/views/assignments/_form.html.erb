@@ -12,21 +12,22 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :limit_date %><br>
+    <%= f.label :limit_date %>
     <%= f.date_select :limit_date %>
   </div>
   <div class="field">
-    <%= f.label :description %><br>
+    <%= f.label :description %>
     <%= f.text_field :description %>
   </div>
   <div class="field">
-    <%= f.label :grade %><br>
+    <%= f.label :grade %>
     <%= f.text_field :grade %>
   </div>
   <div class="field">
-    <%= f.label :project_id %><br>
-    <%= f.text_field :project_id %>
+    <%= f.label :project_id %>
+    <%= f.select :project_id, Project.all.map {|p| [p.title, p.id]} %>
   </div>
+  
   <div class="actions">
     <%= f.submit %>
   </div>

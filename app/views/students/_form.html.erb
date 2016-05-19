@@ -25,7 +25,7 @@
   </div>
   <div class="field">
     <%= f.label :team_id %><br>
-    <%= f.select :team_id, Team.all.map {|t| [t.id, t.name]} %>
+    <%= f.select :team_id, Team.all.map {|t| [t.name, t.id]} %>
   </div>
   <div class="actions">
     <%= f.submit %>

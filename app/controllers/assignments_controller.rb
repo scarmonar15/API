@@ -110,50 +110,15 @@ class AssignmentsController < ApplicationController
     @assignments = Assignment.get_by_date(params[:d])
     response = []
     @assignments.each_with_index do |a, i|
-      teams = a.teams
-      students = []
-      students = teams.map {|t| t.students}
-      groups = {}
-      groups[:project_id] = a.project.id unless a.project.blank? 
-      groups[:project_title] = a.project.title unless a.project.blank? 
-      groups[:id] = a.id
-      groups[:description] = a.description
-      groups[:limit_date] = a.limit_date
-      groups[:teams] = []
-      teams.each do |team|
-        groups[:teams] << {
-          id: team.id,
-          students: team.get_students
-        }
-      end
-      response << groups
+      response << a.build_report
     end
     render json: response
   end
 
   def get_students
     set_assignment
-    #@project.teams.map{|g| groups << g["id"] }
-    teams = @assignment.teams
-    students = []
-    students = teams.map {|t| t.students}
-    groups = {}
-    groups[:project_id] = @assignment.project.id unless @assignment.project.blank? 
-    groups[:project_title] = @assignment.project.title unless @assignment.project.blank? 
-    groups[:id] = @assignment.id
-    groups[:description] = @assignment.description
-    groups[:limit_date] = @assignment.limit_date
-    groups[:teams] = []
-    teams.each do |team|
-      groups[:teams] << {
-        id: team.id,
-        students: team.get_students
-      }
-    end
-    render json: groups
-  end
-
-  def build_report(assignments)
+    response = @assignment.build_report
+    render json: response
   end
   
   private

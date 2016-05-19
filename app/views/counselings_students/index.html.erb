@@ -12,8 +12,8 @@
   <tbody>
     <% @counselings_students.each do |counselings_student| %>
       <tr>
-        <td><%= counselings_student.counseling %></td>
-        <td><%= counselings_student.student %></td>
+        <td><%= counselings_student.counseling.id unless counselings_student.counseling.blank? %></td>
+        <td><%= counselings_student.student.full_name unless counselings_student.student.blank? %></td>
         <td><%= link_to 'Show', counselings_student %></td>
         <td><%= link_to 'Edit', edit_counselings_student_path(counselings_student) %></td>
         <td><%= link_to 'Destroy', counselings_student, method: :delete, data: { confirm: 'Are you sure?' } %></td>

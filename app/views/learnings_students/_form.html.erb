@@ -13,11 +13,11 @@
 
   <div class="field">
     <%= f.label :learning_id %><br>
-    <%= f.text_field :learning_id %>
+    <%= f.select :learning_id, Learning.all.map {|l| [l.name, l.id]} %>
   </div>
   <div class="field">
     <%= f.label :student_id %><br>
-    <%= f.text_field :student_id %>
+    <%= f.select :student_id, Student.all.map {|s| [s.full_name, s.id]} %>
   </div>
   <div class="actions">
     <%= f.submit %>

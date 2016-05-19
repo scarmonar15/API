@@ -12,8 +12,8 @@
   <tbody>
     <% @teams_assignments.each do |teams_assignment| %>
       <tr>
-        <td><%= teams_assignment.team %></td>
-        <td><%= teams_assignment.assignment %></td>
+        <td><%= teams_assignment.team.name unless teams_assignment.team.blank? %></td>
+        <td><%= teams_assignment.assignment.description unless teams_assignment.assignment.blank? %></td>
         <td><%= link_to 'Show', teams_assignment %></td>
         <td><%= link_to 'Edit', edit_teams_assignment_path(teams_assignment) %></td>
         <td><%= link_to 'Destroy', teams_assignment, method: :delete, data: { confirm: 'Are you sure?' } %></td>

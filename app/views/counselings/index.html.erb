@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Id</th>
       <th>Date</th>
       <th>Adviser</th>
       <th>Classroom</th>
@@ -13,6 +14,7 @@
   <tbody>
     <% @counselings.each do |counseling| %>
       <tr>
+        <td><%= counseling.id %></td>
         <td><%= counseling.date %></td>
         <td><%= counseling.adviser %></td>
         <td><%= counseling.classroom %></td>

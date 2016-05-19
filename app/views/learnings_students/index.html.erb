@@ -12,8 +12,8 @@
   <tbody>
     <% @learnings_students.each do |learnings_student| %>
       <tr>
-        <td><%= learnings_student.learning %></td>
-        <td><%= learnings_student.student %></td>
+        <td><%= learnings_student.learning.id unless learnings_student.learning.blank? %></td>
+        <td><%= learnings_student.student.full_name unless learnings_student.student.blank? %></td>
         <td><%= link_to 'Show', learnings_student %></td>
         <td><%= link_to 'Edit', edit_learnings_student_path(learnings_student) %></td>
         <td><%= link_to 'Destroy', learnings_student, method: :delete, data: { confirm: 'Are you sure?' } %></td>

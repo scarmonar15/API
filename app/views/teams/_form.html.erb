@@ -18,4 +18,8 @@
   <div class="actions">
     <%= f.submit %>
   </div>
+  <% @students.each do |student| %>
+    <%= check_box_tag "student_ids[]", student.id %>
+    <%= label_tag :student_name, student.full_name %><br>
+  <% end %>
 <% end %>

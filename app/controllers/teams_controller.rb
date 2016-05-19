@@ -15,10 +15,12 @@ class TeamsController < ApplicationController
   # GET /teams/new
   def new
     @team = Team.new
+    @students = Student.students_alone
   end
 
   # GET /teams/1/edit
   def edit
+     @students = Student.students_alone
   end
 
   # POST /teams
@@ -35,6 +37,11 @@ class TeamsController < ApplicationController
         format.json { render json: @team.errors, status: :unprocessable_entity }
       end
     end
+    student_ids = params[:student_ids].to_a
+    student_ids.each_with_index do |student_id|
+      student = Student.where(id: student_id.to_i).first
+      @team.students << student
+    end
   end
 
   # PATCH/PUT /teams/1
@@ -49,11 +56,21 @@ class TeamsController < ApplicationController
         format.json { render json: @team.errors, status: :unprocessable_entity }
       end
     end
+    student_ids = params[:student_ids].to_a
+    student_ids.each_with_index do |student_id|
+      student = Student.where(id: student_id.to_i).first
+      @team.students << student
+    end
   end
 
   # DELETE /teams/1
   # DELETE /teams/1.json
   def destroy
+    @team.students.each do |s| 
+      s.team_id = nil
+      s.save
+    end
+
     @team.destroy
     respond_to do |format|
       format.html { redirect_to teams_url, notice: 'Team was successfully destroyed.' }
@@ -78,11 +95,7 @@ class TeamsController < ApplicationController
     http.use_ssl = true  
     res = http.request(request)
 
-    # url = URI.parse('https://bd-alarms.herokuapp.com/projects.json')
-    # req = Net::HTTP::Get.new(url.to_s)
-    # res = Net::HTTP.start(url.host, url.port) {|http|
-    #   http.request(req)
-    # }
+
     db_teams = JSON.parse(res.body)
     api_teams = JSON.parse(Team.all.to_json)
     result = []

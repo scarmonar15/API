@@ -4,7 +4,11 @@ class AssignmentsController < ApplicationController
   # GET /assignments
   # GET /assignments.json
   def index
-    @assignments = Assignment.all
+    unless params["d"].blank?
+      @assignments = Assignment.get_by_date(params["d"])
+    else
+      @assignments = Assignment.all
+    end
   end
 
   # GET /assignments/1
@@ -109,6 +113,8 @@ class AssignmentsController < ApplicationController
     students = []
     students = teams.map {|t| t.students}
     groups = {}
+    groups[:project_id] = @assignment.project.id unless @assignment.project.blank? 
+    groups[:project_title] = @assignment.project.title unless @assignment.project.blank? 
     groups[:id] = @assignment.id
     groups[:description] = @assignment.description
     groups[:limit_date] = @assignment.limit_date

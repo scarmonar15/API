@@ -17,7 +17,7 @@
         <td><%= assignment.limit_date %></td>
         <td><%= assignment.description %></td>
         <td><%= assignment.grade %></td>
-        <td><%= assignment.project %></td>
+        <td><%= assignment.project.title unless assignment.project.blank? %></td>
         <td><%= link_to 'Show', assignment %></td>
         <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
         <td><%= link_to 'Destroy', assignment, method: :delete, data: { confirm: 'Are you sure?' } %></td>

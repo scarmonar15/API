@@ -4,4 +4,9 @@ class Assignment < ActiveRecord::Base
 	
 	has_many :teams, through: :teams_assignments
 	has_many :teams_assignments
+
+	def self.get_by_date(search_date)
+		Assignment.where(limit_date: search_date)
+	end
 end
+

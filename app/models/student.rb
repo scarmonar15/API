@@ -7,4 +7,12 @@ class Student < ActiveRecord::Base
 
   has_many :counselings, through: :counselings_students
   has_many :counselings_students
+
+  def full_name
+  	return self.name + " " + self.last_name
+  end
+
+  def self.students_alone
+    return Student.where("team_id is ?", nil)
+  end
 end

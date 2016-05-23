@@ -1,3 +1,4 @@
+
 class StudentsController < ApplicationController
   before_action :set_student, only: [:show, :edit, :update, :destroy]
 
@@ -58,6 +59,31 @@ class StudentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to students_url, notice: 'Student was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def delay
+    if params[:d].blank?
+      render json: []
+    else
+      @students = Student.all
+      response = []
+      @students.each do |s|
+          tasks = s.tasks
+        unless tasks.blank?
+          tasks.each do |t|
+            limit_date = t.assignment.limit_date
+            if limit_date.to_s < params[:d]
+              problems = t.done.blank?
+              unless problems.blank?
+                response << s
+                break
+              end
+            end
+          end
+        end
+      end
+      render json: response
     end
   end
 

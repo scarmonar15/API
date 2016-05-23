@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   get 'assignments/index/by_date' => 'assignments#assignments_by_date', as: :assignment_dates
   get 'tasks/index/delay' => 'tasks#get_no_done', as: :tasks_delayed
   get 'tasks/:id/students' => 'tasks#students', as: :tasks_students
+  get 'students/index/delay' => 'students#delay', as: :students_delayed
+
 
   resources :students_tasks
 

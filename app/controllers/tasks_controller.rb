@@ -60,6 +60,36 @@ class TasksController < ApplicationController
       format.json { head :no_content }
     end
   end
+    
+  def get_no_done
+    tasks = Task.where(done: false).select(:id)
+    response = []
+    tasks.each do |task|
+      response << task.id
+    end
+    render json: response
+  end
+
+  def students
+    set_task
+    assignment = @task.assignment
+    project = assignment.project
+    students = @task.students
+    groups = {}
+    groups[:id] = project.id
+    groups[:title] = project.title
+    groups[:description] = project.description
+    groups[:students] = []
+    students.each do |student|
+      groups[:students] << {
+        id: student.id,
+        name: student.name,
+        last_name: student.last_name,
+        email: student.email
+      }
+    end
+    render json: groups
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

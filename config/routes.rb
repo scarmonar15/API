@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   get 'counselings/index/differences' => 'counselings#differences', as: :counseling_differences
   get 'counselings/:id/students' => 'counselings#get_students', as: :students_counseling
   get 'assignments/index/by_date' => 'assignments#assignments_by_date', as: :assignment_dates
+  get 'tasks/index/delay' => 'tasks#get_no_done', as: :tasks_delayed
+  get 'tasks/:id/students' => 'tasks#students', as: :tasks_students
 
   resources :students_tasks
 

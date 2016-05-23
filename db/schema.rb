@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160517003956) do
+ActiveRecord::Schema.define(version: 20160523045935) do
 
   create_table "assignments", force: true do |t|
     t.date     "limit_date"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20160517003956) do
     t.integer  "assignment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "done",          default: false
   end
 
   add_index "tasks", ["assignment_id"], name: "index_tasks_on_assignment_id"

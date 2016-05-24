@@ -20,10 +20,6 @@
     <%= f.text_field :description %>
   </div>
   <div class="field">
-    <%= f.label :grade %>
-    <%= f.text_field :grade %>
-  </div>
-  <div class="field">
     <%= f.label :project_id %>
     <%= f.select :project_id, Project.all.map {|p| [p.title, p.id]} %>
   </div>

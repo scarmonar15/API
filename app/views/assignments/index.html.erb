@@ -6,7 +6,6 @@
       <th>Id</th>
       <th>Limit date</th>
       <th>Description</th>
-      <th>Grade</th>
       <th>Project</th>
       <th colspan="3"></th>
     </tr>
@@ -18,7 +17,6 @@
         <td><%= assignment.id %></td>
         <td><%= assignment.limit_date %></td>
         <td><%= assignment.description %></td>
-        <td><%= assignment.grade %></td>
         <td><%= assignment.project.title unless assignment.project.blank? %></td>
         <td><%= link_to 'Show', assignment %></td>
         <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>

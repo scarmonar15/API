@@ -81,7 +81,7 @@ class TeamsController < ApplicationController
   def get_students
     set_team
     students = []
-    @team.students.map{|s| students << {id: s["id"], name: s["name"], last_name: s["last_name"], email: s["email"]}}
+    @team.students.map{|s| students << {id: s["id"], name: s["name"], last_name: s["last_name"], email: s["email"], performance: s.get_performance}}
     response = {id: @team.id, name: @team.name, students: students}
     render json: response
   end

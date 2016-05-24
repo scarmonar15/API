@@ -19,6 +19,10 @@
     <%= f.label :assignment_id %><br>
     <%= f.select :assignment_id, Assignment.all.map {|a| [a.description, a.id]} %>
   </div>
+  <div class="field">
+    <%= f.label :done %><br>
+    <%= f.select :done, [["Hecha", true],["No hecha", false]]%>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -10,7 +10,8 @@ class Task < ActiveRecord::Base
 
   def get_assignment
   	response = {id: self.assignment.id, 
-  				limit_date: self.assignment.limit_date, 
+  				limit_date: self.assignment.limit_date,
+          description: self.assignment.description,
   				grade: self.assignment.grade, 
   				project: self.assignment.get_project
   				}

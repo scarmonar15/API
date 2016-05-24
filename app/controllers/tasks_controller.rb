@@ -71,8 +71,6 @@ class TasksController < ApplicationController
         tasks_response << t
       end
     end
-    puts "*********************************************** #{tasks_response}"
-    puts "+++++++++++++++++++++++++++++++++++++++++++++++ #{tasks}"
     tasks_response.each do |task|
       response << {id: task.id, description: task.description, assignment: task.get_assignment, students: task.get_students}  
     end
@@ -108,6 +106,6 @@ class TasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
-      params.require(:task).permit(:description, :assignment_id)
+      params.require(:task).permit(:description, :assignment_id, :done)
     end
 end

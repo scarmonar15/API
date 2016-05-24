@@ -27,5 +27,9 @@ class Assignment < ActiveRecord::Base
 	  end
 	  return response
 	end
+
+	def get_project
+		return {id: self.project.id, title: self.project.title, description: self.project.description}
+	end
 end
 

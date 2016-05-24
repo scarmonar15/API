@@ -62,16 +62,25 @@ class TasksController < ApplicationController
   end
     
   def get_no_done
-    tasks = Task.where(done: false).select(:id)
+    critic_date = params[:d]
+    tasks = Task.all
+    tasks_response = []
     response = []
-    tasks.each do |task|
-      response << task.id
+    tasks.each do |t|
+      if t.done.blank? and t.assignment.limit_date.to_s <= critic_date
+        tasks_response << t
+      end
+    end
+    puts "*********************************************** #{tasks_response}"
+    puts "+++++++++++++++++++++++++++++++++++++++++++++++ #{tasks}"
+    tasks_response.each do |task|
+      response << {id: task.id, description: task.description, assignment: task.get_assignment, students: task.get_students}  
     end
     render json: response
   end
 
   def students
-    set_task
+    set_task  
     assignment = @task.assignment
     project = assignment.project
     students = @task.students
